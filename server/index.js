@@ -1,11 +1,26 @@
 const express = require("express");
+const cors = require("cors");
+
+const RSSParser = require("rss-parser");
+
 const app = express();
+app.use(cors());
 
-app.get("/", (req, res) => {
-  res.send("Hello from Vercel!");
+const feedUrl = "https://www.trthaber.com/ekonomi_articles.rss";
+
+const parser = new RSSParser();
+let articles = [];
+
+const parse = async (url) => {
+  const feed = await parser.parseURL(url);
+  feed.items.forEach((item) => {
+    articles.push(item);
+  });
+};
+parse(feedUrl);
+app.get("/api/rss", async (req, res) => {
+  res.send(articles);
 });
-
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+app.listen(3000, () => {
+  console.log("listening");
 });
