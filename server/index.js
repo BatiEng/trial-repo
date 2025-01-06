@@ -18,8 +18,9 @@ const parse = async (url) => {
   });
 };
 parse(feedUrl);
-app.get("/api/rss", async (req, res) => {
-  res.send(articles);
+app.get("/", async (req, res) => {
+  // res.send(articles);
+  res.send("sdfads");
 });
 app.listen(3000, () => {
   console.log("listening");
